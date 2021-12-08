@@ -1,14 +1,16 @@
 import calendar
 import csv
-it_month=False
-it_year=False
 
 
-choix = input("que voulez vous faire 1 entrer un event 2 voir event a une date ?")
+
+choix = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date ?"))
 
 # input et vérification de l'input.
 
 def choix_date() :
+   it_year=False
+   it_month=False
+
    while it_year == False :
       try:
          year = int(input("Choisissez l'année "))
@@ -20,20 +22,26 @@ def choix_date() :
    while it_month == False :
       try:
          month = int(input("Choisissez le mois "))
-         while month<=0 or month>12 :
-            month = int(input("Choisissez le mois "))
-            it_month = True
+         
+         it_month = True
       except ValueError:
          it_month = False
+
    date=str(year)+' '+str(month)
    return date
 
 
 def lecture_event(date) : 
+   presenceevent=0
    f= open (r"listing.csv")
    myReader = csv.reader(f)
    for row in myReader:
-      print(row[0]+'   '+ row[1])
+      if row[0]==date:
+         print(row[0]+'   '+ row[1])
+         presenceevent=presenceevent+1
+
+   if presenceevent == 0 :
+      print("vous n'avez aucuns event prévu le "+date)
 
 def ajout_event(date,event) :
    with open('listing.csv','a',newline='', encoding='utf-8') as fichiercsv:
