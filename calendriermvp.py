@@ -3,14 +3,14 @@ import csv
 
 
 
-choix = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date ?"))
+choix = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event ?"))
 
 # input et vérification de l'input.
 
 def choix_date() :
    it_year=False
    it_month=False
-
+   month=0
    while it_year == False :
       try:
          year = int(input("Choisissez l'année "))
@@ -21,7 +21,8 @@ def choix_date() :
 
    while it_month == False :
       try:
-         month = int(input("Choisissez le mois "))
+         while month<=0 or month>12 : 
+            month = int(input("Choisissez le mois "))
          
          it_month = True
       except ValueError:
@@ -48,9 +49,14 @@ def ajout_event(date,event) :
        writer=csv.writer(fichiercsv)
        writer.writerow([date,event]) 
        fichiercsv.close()
-       print("Vos données ont bien été enregistrées !")
+       print("Votre event a bien été enregistré !")
 
-
+def suppression_event(date):
+   with open('listing.csv', 'rb') as inp, open('first_edit.csv', 'wb') as out:
+    writer = csv.writer(out)
+    for row in csv.reader(inp):
+        if row[1] != date:
+            writer.writerow(row)
 
 if choix == 1 :
    date=choix_date()
@@ -62,6 +68,9 @@ if choix == 2 :
    date=choix_date()
    lecture_event(date)
 
+if choix == 3 :
+   date=choix_date()
+   suppression_event(date)
 
 
 
