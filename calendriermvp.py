@@ -2,13 +2,13 @@ import calendar
 import csv
 
 
-
+#Choix de l'action ( ajout, voir et supprimer event )
 choixAction = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event ?"))
 
 
 
 
-
+# fonction de traitement de réception de la date 
 def choix_date(valeur) :
 
 
@@ -106,7 +106,7 @@ def choix_date(valeur) :
 
 
 
-
+# recherche et affichage de l'event présent à la date demandée
 def lecture_event(date) : 
    presenceevent=0
    f= open (r"listing.csv")
@@ -121,7 +121,7 @@ def lecture_event(date) :
 
 
 
-
+# ajout d'un event à la date demandé
 
 def ajout_event(date,event) :
    with open('listing.csv','a',newline='', encoding='utf-8') as fichiercsv:
@@ -133,7 +133,7 @@ def ajout_event(date,event) :
 
 
 
-
+# suppression de l'event présent à la date demandée.
 def suppression_event(date):
    with open('listing.csv', 'rb') as inp, open('first_edit.csv', 'wb') as out:
     writer = csv.writer(out)
@@ -141,6 +141,8 @@ def suppression_event(date):
         if row[1] != date:
             writer.writerow(row)
 
+
+# traitement de l'input de lutilisateur afin de savoir ce qu'il doit faire.
 if choixAction == 1 :
    date=choix_date(3)
    event=input('quel est l event que vous voulez enregistrer')
