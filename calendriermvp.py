@@ -1,10 +1,29 @@
 import calendar
 import csv
+import os
+# création de la classe event
+class Event :
+   def __init__(self, date, event, createur):
+    self.date = date
+    self.event = event
+    self.createur = createur
+
 
 
 #Choix de l'action ( ajout, voir et supprimer event )
-choixAction = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event ?"))
+choixAction=0
+it_choixAction = False
+connexion=""
+while len(connexion) == 0 :
+   client = input("Veuillez vous identifier " )
+   connexion=client.upper()
 
+while it_choixAction == False or choixAction<1 or choixAction>4 : 
+   try : 
+      choixAction = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event 4 voir tout les events ?"))
+      it_choixAction = True
+   except ValueError : 
+      it_choixAction = False
 
 
 
@@ -94,6 +113,7 @@ def choix_date(valeur) :
 
       resultat = str(year)+"/"+str(month)+"/"+str(days)
       return resultat
+            
    if valeur == 'a' : 
       return choix_annee()
    if valeur == 'm' : 
@@ -112,9 +132,10 @@ def lecture_event(date) :
    f= open (r"listing.csv")
    myReader = csv.reader(f)
    for row in myReader:
-      if date in row[0]:
-         print(row[0]+'   '+ row[1])
-         presenceevent=presenceevent+1
+      if connexion in row[2] :
+         if date in row[0]:
+            print(row[0]+'   '+ row[1])
+            presenceevent=presenceevent+1
 
    if presenceevent == 0 :
       print("vous n'avez aucuns event prévu le "+date)
@@ -126,7 +147,7 @@ def lecture_event(date) :
 def ajout_event(date,event) :
    with open('listing.csv','a',newline='', encoding='utf-8') as fichiercsv:
        writer=csv.writer(fichiercsv)
-       writer.writerow([date,event]) 
+       writer.writerow([date,event,connexion]) 
        fichiercsv.close()
        print("Votre event a bien été enregistré !")
 
@@ -134,13 +155,27 @@ def ajout_event(date,event) :
 
 
 # suppression de l'event présent à la date demandée.
-def suppression_event(date):
-   with open('listing.csv', 'rb') as inp, open('first_edit.csv', 'wb') as out:
-    writer = csv.writer(out)
-    for row in csv.reader(inp):
-        if row[1] != date:
-            writer.writerow(row)
+def suppression_event():
+   tableau=[]
+   f = open (r"listing.csv")
+   myReader = csv.reader(f)
+   for row in myReader:
+      a=[row[0],row[1], row[2]]
+      tableau.append(a)
+   f.close()
+   os.remove("listing.csv")
 
+   compteur=0
+   with open('listing.csv','w',newline='', encoding='utf-8') as fichiercsv:
+       writer=csv.writer(fichiercsv)
+       while compteur<len(tableau) : 
+         if tableau[compteur][2] != connexion : 
+            writer.writerow([tableau[compteur][0],tableau[compteur][1],tableau[compteur][2]])
+         compteur=compteur+1 
+       fichiercsv.close()
+       print("Votre event a bien été enregistré !")
+   
+   
 
 # traitement de l'input de lutilisateur afin de savoir ce qu'il doit faire.
 if choixAction == 1 :
@@ -158,8 +193,13 @@ if choixAction == 2 :
 
 if choixAction == 3 :
    date=choix_date(3)
-   suppression_event(date)
+   suppression_event()
 
+if choixAction==4 :
+      f= open (r"listing.csv")
+      myReader = csv.reader(f)
+      for row in myReader:
+         print(row[0]+'   '+ row[1])
 
 
 #Les semaines du calendrier commenceront le lundi
@@ -170,4 +210,4 @@ calendar.setfirstweekday(calendar.MONDAY)
 
 
 #Affiche tous les mois de l'année sélectionné 
-#mycal = calendar.calendar(year)
+
