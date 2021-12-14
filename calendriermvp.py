@@ -1,10 +1,22 @@
 import calendar
 import csv
 
+# création de la classe event
+class Event :
+   def __init__(self, date, event, createur):
+    self.date = date
+    self.event = event
+    self.createur = createur
 
 #Choix de l'action ( ajout, voir et supprimer event )
-choixAction = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event ?"))
-
+choixAction=0
+it_choixAction = False
+while it_choixAction == False or choixAction<1 or choixAction>4 : 
+   try : 
+      choixAction = int(input("que voulez vous faire 1 entrer un event 2 voir event a une date 3 supprimer un event 4 voir tout les events ?"))
+      it_choixAction = True
+   except ValueError : 
+      it_choixAction = False
 
 
 
@@ -94,6 +106,7 @@ def choix_date(valeur) :
 
       resultat = str(year)+"/"+str(month)+"/"+str(days)
       return resultat
+            
    if valeur == 'a' : 
       return choix_annee()
    if valeur == 'm' : 
@@ -160,6 +173,11 @@ if choixAction == 3 :
    date=choix_date(3)
    suppression_event(date)
 
+if choixAction==4 :
+      f= open (r"listing.csv")
+      myReader = csv.reader(f)
+      for row in myReader:
+         print(row[0]+'   '+ row[1])
 
 
 #Les semaines du calendrier commenceront le lundi
