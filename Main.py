@@ -5,6 +5,8 @@ import os
 import csv
 from tkcalendar import *
 
+# ajouter un écran pour y mettre son nom et son mdp
+
 try:
     with open("listing.csv", 'r') :
         print('ok')
@@ -64,30 +66,33 @@ def getEntry() :
     activite.enregistrement()
 
 
-  
-def getsupprimerEntry() :
-    ev = supprimer.get()
-    date=cal.get_date()
-    activite = evenement(date,ev,"GREG")
-    print(ev)
-    activite.suppresion()
 
 
-def affichage_event(tableau) :
+
+def affichage_event(tableau,verif) :
     valeuraffichage=0
     compteur=0
     donnee=""
+
     while valeuraffichage<20 :
         label=tk.Label(text="     ",width=30)
         label.grid(row=4+valeuraffichage,column=1)
+        label1=tk.Label(text="     ",width=30,height=2)
+        label1.grid(row=4+valeuraffichage,column=2)
         valeuraffichage+=1
-    while compteur<len(tableau): 
 
+    while compteur<len(tableau): 
+        
+        ev = tableau[compteur][1]
+        date=cal.get_date()
+        activite = evenement(date,ev,"GREG")
         label=tk.Label(text=str(tableau[compteur][0]+" : "+tableau[compteur][1]),width=30)
+        if verif!=0 : 
+            labelbtn=tk.Button(text="supprimer", command=lambda : activite.suppresion())
+            labelbtn.grid(row=4+compteur,column=2)
         label.grid(row=4+compteur,column=1)
         donnee=donnee+str(tableau[compteur][0]+" : "+tableau[compteur][1])+"\n"
         compteur=compteur+1
-    messagebox.showinfo("evènement", donnee)
     
 
 def voirevent(date):
@@ -103,27 +108,22 @@ def voirevent(date):
    if verif == 0 :
         eventtab.append([str(date),"pas d'événnements","GREG"])
    
-   affichage_event(eventtab)
+   affichage_event(eventtab,verif)
 
 
-    
-supprimer= tk.Entry(fenetre)
-supprime = tk.Button(fenetre, text='supprimé',command=lambda:getsupprimerEntry())
+ 
 valide = tk.Button(fenetre, text='validé',command=lambda:getEntry())
 titre=tk.Label(fenetre,text="calendrier")
 cal=Calendar(fenetre,selectmode='day',year=2020,month=5,)
 buttonAjout=tk.Label(fenetre,text="ajout event",width=35)
-buttonSupp=tk.Button(fenetre,text="supprimer event",width=35)
 buttonvoir=tk.Button(fenetre,text="voir event",width=35,command=lambda:voirevent(cal.get_date()))
 event = tk.Entry(fenetre)
 
 titre.grid(row=0,column=1)
 buttonAjout.grid(row=1,column=0)
 buttonvoir.grid(row=1,column=1)
-buttonSupp.grid(row=1,column=2)
 cal.grid(row=2,column=1)
 valide.grid(row=3,column=0)
 event.grid(row=2,column=0)
-supprimer.grid(row=2,column=2)
-supprime.grid(row=3,column=2)
+
 fenetre.mainloop()
