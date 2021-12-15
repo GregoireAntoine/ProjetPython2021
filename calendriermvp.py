@@ -125,6 +125,18 @@ def choix_date(valeur) :
 
 
 
+def lecture_tout_event () : 
+   presenceevent=0
+   f= open (r"listing.csv")
+   myReader = csv.reader(f)
+   for row in myReader:
+      if connexion in row[2] :
+         print(row[0]+'   '+ row[1])
+         presenceevent=presenceevent+1
+
+   if presenceevent == 0 :
+      print("vous n'avez aucuns event prévu ")
+
 
 # recherche et affichage de l'event présent à la date demandée
 def lecture_event(date) : 
@@ -186,10 +198,16 @@ if choixAction == 1 :
 
 if choixAction == 2 :
    angleinspection=""
-   while angleinspection != 'a' and angleinspection!='m' and angleinspection!='j' :
-      angleinspection=input("voulez vous chercher une année (a), un mois(m), un jour(j) ?")
-   date=choix_date(angleinspection)
-   lecture_event(date)
+   while angleinspection != 'a' and angleinspection!='m' and angleinspection!='t' and angleinspection!='j' :
+      angleinspection=input("voulez vous chercher tout vos events (t) une année (a), un mois(m), un jour(j) ?")
+   if angleinspection=='t':
+      lecture_tout_event()
+   else :
+      date=choix_date(angleinspection)
+      lecture_event(date)
+   
+
+   
 
 if choixAction == 3 :
    date=choix_date(3)
