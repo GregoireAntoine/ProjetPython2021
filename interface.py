@@ -4,6 +4,8 @@ from tkcalendar import *
 from script import *
 import time
 personne="GREG"
+
+# vérification de la présence du fichier
 try:
     with open("listing.csv", 'r') :
         print('ok')
@@ -12,7 +14,7 @@ except FileNotFoundError :
         print("fichier créé")
 
 
-        
+
 fenetre = tk.Tk()
 fenetre.geometry("750x500")  
 
@@ -22,8 +24,14 @@ class evenement :
         self.date = date
         self.event = event
         self.createur = createur
-    def ajout():
+    def enegistrement():
         print("ajout")
+
+    def visionnage() :
+        print("a")
+
+    def suppresion() :
+        print("a")
     
 event = tk.Entry(fenetre)
 
@@ -33,11 +41,12 @@ compteurclass=0
 
 
 def getEntry() :
+    
     ev = event.get()
     date=cal.get_date()
+    activite = evenement(date,ev,"GREG")
     messagebox.showinfo("Votre evènement", "évènement bien enregistré ")
-    acti=evenement(date,ev,"GREG")
-    enregistrement_event(acti.date,acti.event)
+    enregistrement_event(activite.date,activite.event)
     
 
 
