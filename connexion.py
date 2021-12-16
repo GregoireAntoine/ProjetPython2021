@@ -1,5 +1,7 @@
 import tkinter as tk
 import csv
+
+from Main import interface
 def recupDonneConnexion(mdp, name ) : 
    f= open (r"Connexion.csv")
    myReader = csv.reader(f)
@@ -14,9 +16,11 @@ class utilisateur :
         self.mdp = mdp
         self.createur = createur
     def connexion(self):
-        
        if recupDonneConnexion(self.mdp,self.createur) == True :
-           print('accès autorisé')  
+           racine.destroy()
+           interface(self.createur)
+           return True
+            
           
         #choper les données du csv et les comparés.
         
@@ -27,9 +31,7 @@ racine = tk.Tk()
 def getEntry():
     name = nom.get()
     motdp =mdp.get()
-    
     uti =utilisateur(motdp,name)
-   
     uti.connexion()
 
 nom= tk.Entry(racine, width=20)
