@@ -27,6 +27,7 @@ def interface(Creator) :
                 else : messagebox.showinfo("Evenement", "Veuillez choisir une date")
                 fichiercsv.close()
                 print("Votre event a bien été enregistré !")
+        
                 
         def participants(self) : 
             partici=[]
@@ -119,6 +120,29 @@ def interface(Creator) :
             donnee=donnee+str(tableau[compteur][0]+" : "+tableau[compteur][1])+"\n"
             compteur=compteur+1
         
+    def voir_tous_events():
+        liste_event=[]
+        lemessage=""
+        verif=0
+        crea=""
+        f= open (r"listing.csv")
+        myReader = csv.reader(f)
+        for row in myReader:
+            if row[2] == Creator or row[3] ==Creator :
+                crea=row[2]
+                liste_event.append([row[0],row[1],row[2],row[3]])
+                verif=1
+        if verif!=1 :
+            messagebox.showinfo("event", "Vous n'avez pas d'event ")
+            return False
+        else : 
+            compteur=0
+            while compteur<len(liste_event)  : 
+                lemessage=lemessage+"Créateur : "+crea +"\n"+ liste_event[compteur][0]+" : "+liste_event[compteur][1]+" avec "+liste_event[compteur][3]+"\n"
+                compteur+=1
+            messagebox.showinfo("Vos evènements", lemessage)
+            return True
+
 
     def voirevent(date):
         eventtab=[]
@@ -142,12 +166,14 @@ def interface(Creator) :
     cal=Calendar(fenetre,selectmode='day',year=2020,month=5,)
     buttonAjout=tk.Label(fenetre,text="ajout event",width=35)
     buttonvoir=tk.Button(fenetre,text="voir event",width=35,command=lambda:voirevent(cal.get_date()))
+    buttonvoirtoutevents=tk.Button(fenetre,text="voir tout les events",width=35,command=lambda:voir_tous_events())
     event = tk.Entry(fenetre)
     acteurs = tk.Entry(fenetre)
 
     titre.grid(row=0,column=1)
     buttonAjout.grid(row=3,column=0)
     buttonvoir.grid(row=1,column=1)
+    buttonvoirtoutevents.grid(row=1,column=0)
     cal.grid(row=2,column=1)
     valide.grid(row=6,column=0)
     event.grid(row=4,column=0)
