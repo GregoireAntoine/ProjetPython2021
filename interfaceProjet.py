@@ -27,8 +27,10 @@ def interface(Creator) :
                 else : messagebox.showinfo("Evenement", "Veuillez choisir une date")
                 fichiercsv.close()
                 print("Votre event a bien été enregistré !")
+                
         def participants(self) : 
             partici=[]
+            verif=0
             crea=""
             f= open (r"listing.csv")
             myReader = csv.reader(f)
@@ -36,7 +38,13 @@ def interface(Creator) :
                 if row[1]== self.event and row[0]==self.date :
                     crea=row[2]
                     partici.append([row[3]])
-            messagebox.showinfo("Votre evènement", "Créateur : "+crea +"\n"+"participants : "+partici[0][0])        
+                    verif=1
+            if verif!=1 :
+                messagebox.showinfo("Votre evènement", "Créateur : "+crea +"\n"+"participants : aucuns")
+                return False
+            else :  
+                messagebox.showinfo("Votre evènement", "Créateur : "+crea +"\n"+"participants : "+partici[0][0])
+                return True        
 
         def suppresion(self) :
             calcul=0
@@ -63,8 +71,10 @@ def interface(Creator) :
                 fichiercsv.close()
             if calcul==0 : 
                 messagebox.showinfo("Votre evènement", "il n'y a pas d'évènement à suprimmer ")
+                return False
             else :
                 messagebox.showinfo("Votre evènement", "évènement bien supprimé ")
+                return True
 
     fenetre = tk.Tk()
     fenetre.geometry("900x500") 
