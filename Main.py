@@ -29,7 +29,7 @@ def connexion():
             
     # initation de la fenêtre graphique de connexion
     racine = tk.Tk()
-
+    racine.geometry("300x200")
     # récupération des données inserez dans la page de connexion
     def getEntry():
 
@@ -40,12 +40,16 @@ def connexion():
             uti.connexion()
         else : messagebox.showinfo("Connexion", "mot de passe et login doivent faire min 8 caractères ")
     # initiation des obejts graphique et placement dans la fenêtre graphique
+    user=tk.Label(racine,text="identifiant", height=1)
+    usermdp=tk.Label(racine,text="mot de passe", height=1)
     nom= tk.Entry(racine, width=20)
-    nom.pack(pady=20)
+    user.pack(pady=10)
+    nom.pack()
     mdp = tk.Entry(racine,show="*", width=20)
-    mdp.pack(pady=20)
+    usermdp.pack(pady=10)
+    mdp.pack()
     btn = tk.Button(racine, height=1, width=10, text="connexion", command=getEntry)
-    btn.pack()
+    btn.pack(pady=10)
 
     racine.mainloop()
 

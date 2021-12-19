@@ -5,12 +5,25 @@ import os
 import csv
 
 class evenement :
+
         def __init__(self, date, event, createur,acteurs):
+            """créer un evenement comprennat un sujet, un créateur, une date et des invités.
+
+            PRE : seul les invites peuvent être nuls
+            POST : Il va créer un evenement avec une date, unu sujet, un créateur et peut-être des invités
+
+            """
             self.date = date
             self.event = event
             self.createur = createur
             self.acteurs=acteurs
+
         def enregistrement(self):
+            """ une date, un sujet, un createur et des invités qui sont enregistrés dans un fichier csv
+
+            PRE : Nnone
+            POST : si enregistre les données recues dans un csv return true sinon return false
+            """
             with open('listing.csv','a',newline='', encoding='utf-8') as fichiercsv:
                 if len(self.date)>4 :
                     writer=csv.writer(fichiercsv)
@@ -25,6 +38,11 @@ class evenement :
                 
                 
         def participants(self) : 
+            """Verifie les events d'une personne
+
+            PRE : None
+            POST : si il n'y a pas d'évènement return false sinon true
+            """
             partici=[]
             verif=0
             crea=""
@@ -45,6 +63,11 @@ class evenement :
 
 
         def veriflsite():
+            """Verifie qu'une liste existe
+
+            PRE : None
+            POST : si elle existe pas return false sinon true
+            """
             f= open (r"listing.csv")
             myReader = csv.reader(f)
             if len(f)==0 : 
@@ -52,6 +75,11 @@ class evenement :
             else : return True
 
         def suppresion(self) :
+            """Supprime un evenement
+
+            PRE : recois une date, un sujet, un createur 
+            POST : si il est possible pour la personne de supprimer cet event return True sinon return False
+            """
             calcul=0
             verif=0
             compteur=0
