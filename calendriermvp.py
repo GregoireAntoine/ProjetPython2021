@@ -125,6 +125,18 @@ def choix_date(valeur) :
 
 
 
+def lecture_tout_event () : 
+   presenceevent=0
+   f= open (r"listing.csv")
+   myReader = csv.reader(f)
+   for row in myReader:
+      if connexion in row[2] :
+         print(row[0]+'   '+ row[1])
+         presenceevent=presenceevent+1
+
+   if presenceevent == 0 :
+      print("vous n'avez aucuns event prévu ")
+
 
 # recherche et affichage de l'event présent à la date demandée
 def lecture_event(date) : 
@@ -156,24 +168,24 @@ def ajout_event(date,event) :
 
 # suppression de l'event présent à la date demandée.
 def suppression_event():
-   tableau=[]
-   f = open (r"listing.csv")
+   tableau=[]                          #initalisation du tableau qui reprendra toutes les données
+   f = open (r"listing.csv")           # récupération de toute les données
    myReader = csv.reader(f)
    for row in myReader:
       a=[row[0],row[1], row[2]]
-      tableau.append(a)
+      tableau.append(a)                   
    f.close()
-   os.remove("listing.csv")
+   os.remove("listing.csv")               # on supprime le fichier qui contennait toutes les données
 
    compteur=0
-   with open('listing.csv','w',newline='', encoding='utf-8') as fichiercsv:
+   with open('listing.csv','w',newline='', encoding='utf-8') as fichiercsv:      # on crée un nouveau fichier vierge
        writer=csv.writer(fichiercsv)
-       while compteur<len(tableau) : 
+       while compteur<len(tableau) :      # on écrit toutes les données qui on été copiées dans le tableau et qui ne doivent pas être supprimées. 
          if tableau[compteur][2] != connexion : 
             writer.writerow([tableau[compteur][0],tableau[compteur][1],tableau[compteur][2]])
          compteur=compteur+1 
        fichiercsv.close()
-       print("Votre event a bien été enregistré !")
+       
    
    
 
@@ -186,10 +198,16 @@ if choixAction == 1 :
 
 if choixAction == 2 :
    angleinspection=""
-   while angleinspection != 'a' and angleinspection!='m' and angleinspection!='j' :
-      angleinspection=input("voulez vous chercher une année (a), un mois(m), un jour(j) ?")
-   date=choix_date(angleinspection)
-   lecture_event(date)
+   while angleinspection != 'a' and angleinspection!='m' and angleinspection!='t' and angleinspection!='j' :
+      angleinspection=input("voulez vous chercher tout vos events (t) une année (a), un mois(m), un jour(j) ?")
+   if angleinspection=='t':
+      lecture_tout_event()
+   else :
+      date=choix_date(angleinspection)
+      lecture_event(date)
+   
+
+   
 
 if choixAction == 3 :
    date=choix_date(3)
