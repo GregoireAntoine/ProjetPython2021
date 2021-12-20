@@ -84,7 +84,7 @@ def interface(Creator) :
     fenetre.geometry("900x500") 
     # récupération de la valeur entré dans les 2 case d'ajouts d'évènnement 
     def getEntry() :
-        acteur=acteurs.get()
+        acteur=acteurs.get().upper()
         ev = event.get()
         date=cal.get_date()
         if len(ev)<1 or len(date)<1 : 
@@ -109,6 +109,8 @@ def interface(Creator) :
             label.grid(row=4+valeuraffichage,column=1)
             label1=tk.Label(text="     ",width=30,height=2)
             label1.grid(row=4+valeuraffichage,column=2)
+            label2=tk.Label(text="     ",width=30,height=2)
+            label2.grid(row=4+valeuraffichage,column=3)
             valeuraffichage+=1
 
         #Ecriture des nouveaux evenements à afficher
