@@ -33,7 +33,7 @@ def connexion():
     # récupération des données inserez dans la page de connexion
     def getEntry():
 
-        name = nom.get()
+        name = nom.get().upper()
         motdp =mdp.get()
         if len(name)>=8 and len(motdp)>=8 :
             uti =utilisateur(motdp,name)
