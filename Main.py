@@ -6,7 +6,7 @@ from interfaceProjet import interface
 # interface de connexion au calendrier avec nom d'utilisateur et mot de passe
 def connexion():
     def recupDonneConnexion(mdp, name ) : 
-        f= open (r"Connexion.csv")
+        f= open ("Connexion.csv")
         myReader = csv.reader(f)
         for row in myReader:
             if mdp == row[0] and name == row[1] : 
@@ -50,6 +50,8 @@ def connexion():
     mdp.pack()
     btn = tk.Button(racine, height=1, width=10, text="connexion", command=getEntry)
     btn.pack(pady=10)
+    inscription = tk.Button(racine, height=1, width=10, text="S'inscrire", command=getEntry)
+    inscription.pack(pady=10)
 
     racine.mainloop()
 

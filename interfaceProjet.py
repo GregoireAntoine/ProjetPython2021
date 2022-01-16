@@ -50,7 +50,7 @@ def interface(Creator) :
                 messagebox.showinfo("Votre evènement", "Créateur : "+crea +"\n"+"participants : "+partici[0][0])
                 return True        
         # fonction permettant de supprimer un évènement.
-        def suppresion(self) :
+        def suppression(self) :
             calcul=0
             verif=0
             compteur=0
@@ -124,7 +124,7 @@ def interface(Creator) :
                     voirparticipant = tk.Button(fenetre, text='participants',command=lambda:activite.participants())
                     voirparticipant.grid(row=4+compteur,column=2)
                 if verif!=0 and Creator in tableau[compteur][2] : 
-                    labelbtn=tk.Button(text="supprimer", command=lambda : activite.suppresion())
+                    labelbtn=tk.Button(text="supprimer", command=lambda : activite.suppression())
                     labelbtn.grid(row=4+compteur,column=3)
                 label.grid(row=4+compteur,column=1)
                 donnee=donnee+str(tableau[compteur][0]+" : "+tableau[compteur][1])+"\n"
@@ -177,6 +177,7 @@ def interface(Creator) :
     cal=Calendar(fenetre,selectmode='day',year=2020,month=5,)
     buttonAjout=tk.Label(fenetre,text="ajout event",width=35)
     buttonAjoutParticipant=tk.Label(fenetre,text="participants",width=35)
+    # buttonSuppressionEvent = tk.Label(fenetre, tex='X', width=35)
     buttonvoir=tk.Button(fenetre,text="voir event",width=35,command=lambda:voirevent(cal.get_date()))
     buttonvoirtoutevents=tk.Button(fenetre,text="voir tout les events",width=35,command=lambda:voir_tous_events())
     event = tk.Entry(fenetre)
@@ -191,5 +192,7 @@ def interface(Creator) :
     valide.grid(row=7,column=0)
     event.grid(row=4,column=0)
     acteurs.grid(row=6,column=0)
+    # buttonSuppressionEvent(row=3, column=0)
+
 
     fenetre.mainloop()
