@@ -29,7 +29,7 @@ def enregistrement_event(date,event) :
 def voire_event(date):
    verif=0
    eventtab=[]
-   f= open (r"listing.csv")
+   f= open ("listing.csv")
    myReader = csv.reader(f)
    for row in myReader:
       if "GREG" in row[2] :
