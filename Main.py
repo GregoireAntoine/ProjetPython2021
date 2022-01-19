@@ -1,82 +1,121 @@
 import tkinter as tk
 import csv
 from tkinter import messagebox
+import os
 from interfaceProjet import interface
 
-FILE_NAME = 'Connexion.csv'
 
-# interface de connexion au calendrier avec nom d'utilisateur et mot de passe
-def connexion():
-    # création de la class utilisateur
-    class utilisateur :
-        def __init__(self, mdp,  createur):
-            self.mdp = mdp
-            self.createur = createur
-        def connexion(self):
-            if self.recupDonneConnexion():
-                racine.destroy()                                        # suppression de la fenêtre de connexion
-                interface(self.createur)                                # ouverture de la fenêtre de calendrier avec le nom de l'utilisateur
-                return True
-            else :
-                messagebox.showinfo("Inscription", "Cet identifiant existe déjà !")
-            return False
+class Utilisateur:
+    FILE_NAME = 'Connexion.csv'
 
-        def recupDonneConnexion(self):
-            auth = False
-            f = open(FILE_NAME)
-            myReader = csv.reader(f)
-            for row in myReader:
-                if self.mdp == row[0] and self.createur == row[1]:
-                    auth = True
-            return auth
+    def __init__(self, username, password):
+        self.password = password
+        self.username = username
 
-        def add_donnee_connexion(self):
-            if not self.recupDonneConnexion():
-                with open(FILE_NAME, 'a', newline='') as csvfile:
+    def bind(self):
+        auth = False
+        if os.path.exists(self.FILE_NAME):
+            with open(self.FILE_NAME, 'r') as csvfile:
+                csv_reader = csv.reader(csvfile)
+                for row in csv_reader:
+                    if len(row):
+                        if self.username == row[0] and self.password == row[1]:
+                            auth = True
+        return auth
+
+    def is_username_exists(self):
+        exists = False
+        if os.path.exists(self.FILE_NAME):
+            with open(self.FILE_NAME, 'r') as csvfile:
+                csv_reader = csv.reader(csvfile)
+                for row in csv_reader:
+                    if len(row):
+                        if self.username == row[0]:
+                            exists = True
+        return exists
+
+    def save(self):
+        save = False
+        if not self.bind() and not self.is_username_exists():
+            if os.path.exists(self.FILE_NAME):
+                with open(self.FILE_NAME, 'a') as csvfile:
                     writer = csv.writer(csvfile)
-                    writer.writerow([self.mdp, self.createur])
-                messagebox.showinfo("Inscription", "Vous avez bien été inscrit !")
-                racine.destroy()
-                interface(self.createur)
-            return True
-                    
-    # initation de la fenêtre graphique de connexion
-    racine = tk.Tk()
-    racine.geometry("400x300")
-    # récupération des données inserez dans la page de connexion
-    def getEntry():
-        name = nom.get().upper()
-        motdp =mdp.get()
-        if len(name)>=8 and len(motdp)>=8 :
-            uti =utilisateur(motdp,name)
-            uti.connexion()
-        else : 
-            messagebox.showinfo("Connexion", "mot de passe et login doivent faire min 8 caractères")   
+                    writer.writerow([self.username, self.password])
+                save = True
+            else:
+                with open(self.FILE_NAME, 'w') as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerow([self.username, self.password])
+                save = True
+        return save
 
-    def get_register():
-        name = nom.get().upper()
-        motdp = mdp.get()
-        if len(name) >= 8 and len(motdp) >= 8:
-            uti = utilisateur(motdp, name)
-            uti.add_donnee_connexion()
+
+class Gui():
+    def get_connexion_popup(self):
+        self.racine = tk.Tk()
+        self.racine.geometry("400x300")
+        user = tk.Label(self.racine, text="identifiant", height=1)
+        usermdp = tk.Label(self.racine, text="mot de passe", height=1)
+        self.username_entry = tk.Entry(self.racine, width=20)
+        user.pack(pady=10)
+        self.username_entry.pack()
+        self.password_entry = tk.Entry(self.racine, show="*", width=20)
+        usermdp.pack(pady=10)
+        self.password_entry.pack()
+        btn = tk.Button(self.racine, height=1, width=10,
+                        text="connexion", command=self.login)
+        btn.pack(pady=10)
+        inscription = tk.Button(
+            self.racine, height=1, width=10, text="S'inscrire", command=self.get_register)
+        inscription.pack(pady=10)
+
+    def get_userframe(self):
+        interface(self.user.username)
+        # voir ce qu'il y a dans interface
+
+    def check_credential(self, name, password):
+        return len(name) >= 8 and len(password) >= 8
+        #return True
+
+    def login(self):
+        name = self.username_entry.get().upper()
+        password = self.password_entry.get()
+        if self.check_credential(name, password):
+            self.user = Utilisateur(name, password)
+            if self.user.bind():
+                self.racine.destroy()
+                self.get_userframe()
+            else:  # probleme de connexion
+                if self.user.is_username_exists():
+                    messagebox.showinfo("Connexion", "Mauvais mot de passe")
+                else:
+                    messagebox.showinfo("Connexion", "Utilisateur inconnu")
         else:
-            messagebox.showinfo("Inscription", "mot de passe et login doivent faire min 8 caractères")
+            messagebox.showinfo(
+                "Connexion", "Mot de passe et login doivent faire min 8 caractères ")
 
-    # initiation des obejts graphique et placement dans la fenêtre graphique
-    user=tk.Label(racine,text="identifiant", height=1)
-    usermdp=tk.Label(racine,text="mot de passe", height=1)
-    nom= tk.Entry(racine, width=20)
-    user.pack(pady=10)
-    nom.pack()
-    mdp = tk.Entry(racine,show="*", width=20)
-    usermdp.pack(pady=10)
-    mdp.pack()
-    btn = tk.Button(racine, height=1, width=10, text="connexion", command=getEntry)
-    btn.pack(pady=10)
-    inscription = tk.Button(racine, height=1, width=10, text="S'inscrire", command=get_register)
-    inscription.pack(pady=10)
+    def get_register(self):
+        username = self.username_entry.get().upper()
+        password = self.password_entry.get()
+        if self.check_credential(username, password):
+            self.user = Utilisateur(username, password)
+            if self.user.save():
+                messagebox.showinfo(
+                    "Connexion", "Bien inscrit !")
+                self.racine.destroy()
+                self.get_userframe()
+            else:
+                messagebox.showinfo(
+                    "Connexion", "Utilisateur déjà utilisé !")
 
-    racine.mainloop()
+        else:
+            messagebox.showinfo(
+                "Inscription", "mot de passe et login doivent faire min 8 caractères")
+
+    def __init__(self):
+        self.get_connexion_popup()
+        self.racine.mainloop()
+
 
 if __name__ == "__main__":
-    connexion()
+    g = Gui()
