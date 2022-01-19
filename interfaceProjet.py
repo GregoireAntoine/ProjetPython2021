@@ -81,7 +81,7 @@ def interface(Creator) :
                 return True
     # initation de la fenetre graphique
     fenetre = tk.Tk()
-    fenetre.geometry("900x500") 
+    fenetre.geometry("1000x500") 
     # récupération de la valeur entré dans les 2 case d'ajouts d'évènnement 
     def getEntry() :
         acteur=acteurs.get().upper()

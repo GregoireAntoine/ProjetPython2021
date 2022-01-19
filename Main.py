@@ -13,25 +13,31 @@ def connexion():
             self.mdp = mdp
             self.createur = createur
         def connexion(self):
-            if self.recupDonneConnexion() == True :
+            if self.recupDonneConnexion():
                 racine.destroy()                                        # suppression de la fenêtre de connexion
                 interface(self.createur)                                # ouverture de la fenêtre de calendrier avec le nom de l'utilisateur
                 return True
+            else :
+                messagebox.showinfo("Inscription", "Cet identifiant existe déjà !")
+            return False
 
         def recupDonneConnexion(self):
+            auth = False
             f = open(FILE_NAME)
             myReader = csv.reader(f)
             for row in myReader:
                 if self.mdp == row[0] and self.createur == row[1]:
-                    print("ok")
-                    return True
+                    auth = True
+            return auth
 
         def add_donnee_connexion(self):
-            print('add_donnee_connexion')
-            if self.recupDonneConnexion() == False:
-                with open('12345678.csv', 'a') as csvfile:
+            if not self.recupDonneConnexion():
+                with open(FILE_NAME, 'a', newline='') as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerow([self.mdp, self.createur])
+                messagebox.showinfo("Inscription", "Vous avez bien été inscrit !")
+                racine.destroy()
+                interface(self.createur)
             return True
                     
     # initation de la fenêtre graphique de connexion
@@ -45,18 +51,16 @@ def connexion():
             uti =utilisateur(motdp,name)
             uti.connexion()
         else : 
-            messagebox.showinfo("Connexion", "mot de passe et login doivent faire min 8 caractères ")   
+            messagebox.showinfo("Connexion", "mot de passe et login doivent faire min 8 caractères")   
 
     def get_register():
-        print('get_register')
         name = nom.get().upper()
         motdp = mdp.get()
         if len(name) >= 8 and len(motdp) >= 8:
             uti = utilisateur(motdp, name)
             uti.add_donnee_connexion()
         else:
-            messagebox.showinfo(
-                "Inscription", "mot de passe et login doivent faire min 8 caractères")
+            messagebox.showinfo("Inscription", "mot de passe et login doivent faire min 8 caractères")
 
     # initiation des obejts graphique et placement dans la fenêtre graphique
     user=tk.Label(racine,text="identifiant", height=1)
