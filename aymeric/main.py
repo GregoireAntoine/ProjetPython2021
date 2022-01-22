@@ -55,7 +55,7 @@ class Gui:
                 if widget:
                     widget.grid_forget()
         if not len(events):
-            label1 = tk.Label(text="No events", width=30)
+            label1 = tk.Label(text="Pas d'évènements", width=30)
             label2 = tk.Label(text=" ", width=30) # inutile mais pour le clean automatique
             label3 = tk.Label(text=" ", width=30) # inutile mais pour le clean automatique
             label1.grid(row=ROW_START, column=1)
@@ -143,7 +143,7 @@ class Gui:
                 else:
                     messagebox.showinfo("Connexion", "Utilisateur inconnu")
         else:
-            messagebox.showinfo("Connexion", "Mot de passe et login doivent faire min 8 caractères ")
+            messagebox.showinfo("Connexion", "Mot de passe et login doivent faire min 8 caractères")
 
     def register(self):
         username = self.username_entry.get().upper()
