@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkcalendar import *
 from utilisateur import Utilisateur
+from datetime import date
 
 def clean_entry(entry):
     entry.delete('0', 'end')
@@ -101,7 +102,9 @@ class Gui:
         self.fenetre.title("Mon Calendrier")
         self.fenetre.geometry("1000x500")
         self.n_events = 0
-        cal = Calendar(self.fenetre, selectmode='day', year=2020, month=5, ) # date par défaut du calendrier
+        # date par défaut du calendrier (mis automatiquement sur le mois et l'année qui correspond)
+        now = date.today()
+        cal = Calendar(self.fenetre, selectmode='day', year=int(now.strftime("%Y")), month=int(now.strftime("%m")))
 
         # créations des objets graphiques présent à l'écran
         valid = tk.Button(self.fenetre, text='Valider', command=lambda:self.btn_add_event(cal.get_date()))
