@@ -52,7 +52,7 @@ class Evenements:
                 for row in csv_reader:
                     if len(row):
                         if date == row[0]:
-                            l.append((row[0], row[1], row[2], row[3]))  # tuple
+                            l.append((row[0], row[1], row[2], row[3]))  # tuple (comme une liste mais on ne peut pas modifier)
         return l
 
     def get_all_events(self):

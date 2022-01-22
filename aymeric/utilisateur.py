@@ -29,13 +29,11 @@ class Utilisateur :
                 csv_reader = csv.reader(csvfile)
                 for row in csv_reader:
                     if len(row):
-
-                        print(row[0], "?", self.username)
                         if self.username == row[0]:
                             exists = True
         return exists
 
-    def save(self):
+    def create_user(self):
         save = False
         if not self.bind() and not self.username_exists():
             if os.path.exists(self.FILE_NAME):

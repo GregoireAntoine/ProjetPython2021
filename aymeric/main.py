@@ -13,33 +13,33 @@ class Gui:
         self.auth_frame = tk.Tk()
         self.auth_frame.title("Authentification")
         self.auth_frame.geometry("500x400")
-        lbl_user = tk.Label(self.auth_frame, text="identifiant", height=1)
-        lbl_password = tk.Label(self.auth_frame, text="mot de passe", height=1)
+        lbl_user = tk.Label(self.auth_frame, text="Identifiant", height=1)
+        lbl_password = tk.Label(self.auth_frame, text="Mot de passe", height=1)
         self.username_entry = tk.Entry(self.auth_frame, width=20)
         lbl_user.pack(pady=10)
         self.username_entry.pack()
         self.password_entry = tk.Entry(self.auth_frame, show="*", width=20)
         lbl_password.pack(pady=10)
         self.password_entry.pack()
-        btn = tk.Button(self.auth_frame, height=1, width=10, text="connexion", command=self.login)
+        btn = tk.Button(self.auth_frame, height=1, width=10, text="Connexion", command=self.login)
         btn.pack(pady=10)
-        btn_subscribe = tk.Button(self.auth_frame, height=1, width=10, text="S'inscrire", command=self.get_register)
+        btn_subscribe = tk.Button(self.auth_frame, height=1, width=10, text="S'inscrire", command=self.register)
         btn_subscribe.pack(pady=10)
 
     
     def btn_add_event(self, date):
         if not date:
-            messagebox.showinfo("Ajouter evenement", "Veuillez sélectionner une date")
+            messagebox.showinfo("Ajouter évènement", "Veuillez sélectionner une date")
         elif not len(self.event_name.get()):
-            messagebox.showinfo("Ajouter evenement", "Veuillez donner un nom à votre evenement")
+            messagebox.showinfo("Ajouter évènement", "Veuillez donner un nom à votre évènement")
         elif not len(self.event_acteurs.get()):
-            messagebox.showinfo("Ajouter evenement", "Veuillez donner un nombre de participants à votre evenement")
+            messagebox.showinfo("Ajouter évènement", "Veuillez donner un nombre de participants à votre évènement")
         else:
             if self.user.events.event_already_exists(date, self.event_name.get()):
-                messagebox.showinfo("Ajouter evenement", "L'evenement existe déjà")
+                messagebox.showinfo("Ajouter évènement", "L'évènement existe déjà")
             else:
                 self.user.events.add_event(date, self.event_name.get(), self.event_acteurs.get())
-                messagebox.showinfo("Ajouter evenement", "L'evenement a été ajouté")
+                messagebox.showinfo("Ajouter évènement", "L'évènement a été ajouté")
                 clean_entry(self.event_name)
                 clean_entry(self.event_acteurs)
                 self.btn_get_event_date(date)
@@ -68,13 +68,13 @@ class Gui:
                 label.grid(row=ROW_START + i, column= COLUMN_START)
                 btn_view_acteurs = tk.Button(text="Participants", command=lambda: self.view_acteurs_event(e[0], e[1]))
                 btn_view_acteurs.grid(row=ROW_START + i, column=COLUMN_START + 1)
-                btn_remove_event = tk.Button(text="supprimer", command=lambda: self.remove_event(e[0], e[1], org))
+                btn_remove_event = tk.Button(text="Supprimer", command=lambda: self.remove_event(e[0], e[1], org))
                 btn_remove_event.grid(row=ROW_START + i, column=COLUMN_START + 2)
             self.n_events = len(events) # nombre de lignes à effacer
 
     def btn_get_event_date(self, date):
         if not date:
-            messagebox.showinfo("Detail evenement", "Veuillez sélectionner une date")
+            messagebox.showinfo("Détail évènement", "Veuillez sélectionner une date")
         events = self.user.events.get_events_date(date)
         self.print_list_events(events, False)
 
@@ -84,17 +84,17 @@ class Gui:
 
     def view_acteurs_event(self, date, name):
         e = self.user.events.get_event(date, name)
-        messagebox.showinfo("Detail evenement", f"Créateur = {e[2]}\nParticipants = {e[3]}")
+        messagebox.showinfo("Détail évènement", f"Créateur = {e[2]}\nParticipants = {e[3]}")
 
     def remove_event(self, date, name, org):
         if self.user.events.remove_event(date, name) :
-            messagebox.showinfo("Supprimer evenement", "L'evenement a été supprimé")
+            messagebox.showinfo("Supprimer évènement", "L'évènement a été supprimé")
             if org: # org indique la vue à afficher en fonction de la vue d'origine : soit tous les events, soit les events d'un jour
                 self.btn_get_all_events()
             else:
                 self.btn_get_event_date(date)
         else:
-            messagebox.showinfo("Supprimer evenement", "Vous ne pouvez pas supprimer un evenement dont vous n'êtes pas le créateur")
+            messagebox.showinfo("Supprimer évènement", "Vous ne pouvez pas supprimer un évènement dont vous n'êtes pas le créateur")
 
     def get_userframe(self):
         self.fenetre = tk.Tk("Mon Calendrier")
@@ -102,14 +102,14 @@ class Gui:
         self.fenetre.geometry("1000x500")
         self.n_events = 0
         cal = Calendar(self.fenetre, selectmode='day', year=2020, month=5, ) # date par défaut du calendrier
-        
+
         # créations des objets graphiques présent à l'écran
-        valid = tk.Button(self.fenetre, text='valider', command=lambda:self.btn_add_event(cal.get_date()))
-        titre = tk.Label(self.fenetre, text="calendrier")
-        label_event = tk.Label(self.fenetre, text="ajout event", width=35)
-        label_participant = tk.Label(self.fenetre, text="participants", width=35)
-        btn_get_event = tk.Button(self.fenetre, text="voir event", width=35, command=lambda:self.btn_get_event_date(cal.get_date()))
-        btn_get_all_events = tk.Button(self.fenetre, text="voir tout les events", width=35, command=lambda:self.btn_get_all_events())
+        valid = tk.Button(self.fenetre, text='Valider', command=lambda:self.btn_add_event(cal.get_date()))
+        titre = tk.Label(self.fenetre, text="Calendrier")
+        label_event = tk.Label(self.fenetre, text="Ajout évènement", width=35)
+        label_participant = tk.Label(self.fenetre, text="Participants", width=35)
+        btn_get_event = tk.Button(self.fenetre, text="Voir évènement", width=35, command=lambda:self.btn_get_event_date(cal.get_date()))
+        btn_get_all_events = tk.Button(self.fenetre, text="Voir tout les évènements", width=35, command=lambda:self.btn_get_all_events())
         self.event_name = tk.Entry(self.fenetre)
         self.event_acteurs = tk.Entry(self.fenetre)
 
@@ -143,20 +143,20 @@ class Gui:
                 else:
                     messagebox.showinfo("Connexion", "Utilisateur inconnu")
         else:
-            messagebox.showinfo("Connexion", "mot de passe et login doivent faire min 8 caractères ")
+            messagebox.showinfo("Connexion", "Mot de passe et login doivent faire min 8 caractères ")
 
-    def get_register(self):
+    def register(self):
         username = self.username_entry.get().upper()
         password = self.password_entry.get()
         if self.check_credential(username, password):
             self.user = Utilisateur(username, password)
-            if self.user.save():
+            if self.user.create_user():
                 self.auth_frame.destroy()
                 self.get_userframe()
             else:
-                messagebox.showinfo("Inscription", "utilisateur déjà connu")
+                messagebox.showinfo("Inscription", "Utilisateur déjà connu")
         else:
-            messagebox.showinfo("Inscription", "mot de passe et login doivent faire min 8 caractères")
+            messagebox.showinfo("Inscription", "Mot de passe et login doivent faire min 8 caractères")
 
     def __init__(self):
         self.get_connexion_popup()
