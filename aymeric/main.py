@@ -154,6 +154,7 @@ class Gui:
         if self.check_credential(username, password):
             self.user = Utilisateur(username, password)
             if self.user.create_user():
+                messagebox.showinfo("Connexion", "Bien inscrit !")
                 self.auth_frame.destroy()
                 self.get_userframe()
             else:
