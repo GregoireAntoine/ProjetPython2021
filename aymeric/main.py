@@ -46,32 +46,39 @@ class Gui:
                 self.btn_get_event_date(date)
 
     def print_list_events(self, events, org):
-        # affiche l'ensemble des events 
+        # affiche l'ensemble des events
         # clean
         ROW_START = 8
         COLUMN_START = 1
         for i in range(self.n_events):
             for j in range(3):
-                widget = self.fenetre.grid_slaves(row=ROW_START + i, column=COLUMN_START + j)[0]
+                widget = self.fenetre.grid_slaves(
+                    row=ROW_START + i, column=COLUMN_START + j)[0]
                 if widget:
                     widget.grid_forget()
         if not len(events):
-            label1 = tk.Label(text="Pas d'évènements", width=30)
-            label2 = tk.Label(text=" ", width=30) # inutile mais pour le clean automatique
-            label3 = tk.Label(text=" ", width=30) # inutile mais pour le clean automatique
+            label1 = tk.Label(text="No events", width=30)
+            # inutile mais pour le clean automatique
+            label2 = tk.Label(text=" ", width=30)
+            # inutile mais pour le clean automatique
+            label3 = tk.Label(text=" ", width=30)
             label1.grid(row=ROW_START, column=1)
             label2.grid(row=ROW_START, column=2)
             label3.grid(row=ROW_START, column=3)
-            self.n_events = 1 # nombre de lignes à effacer
+            self.n_events = 1  # nombre de lignes à effacer
         else:
             for i, e in enumerate(events):
                 label = tk.Label(text=f"{e[0]} : {e[1]}", width=30)
-                label.grid(row=ROW_START + i, column= COLUMN_START)
-                btn_view_acteurs = tk.Button(text="Participants", command=lambda: self.view_acteurs_event(e[0], e[1]))
-                btn_view_acteurs.grid(row=ROW_START + i, column=COLUMN_START + 1)
-                btn_remove_event = tk.Button(text="Supprimer", command=lambda: self.remove_event(e[0], e[1], org))
-                btn_remove_event.grid(row=ROW_START + i, column=COLUMN_START + 2)
-            self.n_events = len(events) # nombre de lignes à effacer
+                label.grid(row=ROW_START + i, column=COLUMN_START)
+                btn_view_acteurs = tk.Button(
+                    text="Participants", command=lambda d=e[0], n=e[1]: self.view_acteurs_event(d, n))
+                btn_view_acteurs.grid(
+                    row=ROW_START + i, column=COLUMN_START + 1)
+                btn_remove_event = tk.Button(
+                    text="supprimer", command=lambda d=e[0], n=e[1], s=org: self.remove_event(d, n, s))
+                btn_remove_event.grid(
+                    row=ROW_START + i, column=COLUMN_START + 2)
+            self.n_events = len(events)  # nombre de lignes à effacer
 
     def btn_get_event_date(self, date):
         if not date:
