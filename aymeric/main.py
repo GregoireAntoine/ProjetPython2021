@@ -75,7 +75,7 @@ class Gui:
                 btn_view_acteurs.grid(
                     row=ROW_START + i, column=COLUMN_START + 1)
                 btn_remove_event = tk.Button(
-                    text="supprimer", command=lambda d=e[0], n=e[1], s=org: self.remove_event(d, n, s))
+                    text="Supprimer", command=lambda d=e[0], n=e[1], s=org: self.remove_event(d, n, s))
                 btn_remove_event.grid(
                     row=ROW_START + i, column=COLUMN_START + 2)
             self.n_events = len(events)  # nombre de lignes à effacer
