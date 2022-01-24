@@ -65,9 +65,6 @@ class Gui():
         btn = tk.Button(self.racine, height=1, width=10,
                         text="connexion", command=self.login)
         btn.pack(pady=10)
-        inscription = tk.Button(
-            self.racine, height=1, width=10, text="S'inscrire", command=self.get_register)
-        inscription.pack(pady=10)
 
     def get_userframe(self):
         interface(self.user.username)
@@ -93,24 +90,6 @@ class Gui():
         else:
             messagebox.showinfo(
                 "Connexion", "Mot de passe et login doivent faire min 8 caractères ")
-
-    def get_register(self):
-        username = self.username_entry.get().upper()
-        password = self.password_entry.get()
-        if self.check_credential(username, password):
-            self.user = Utilisateur(username, password)
-            if self.user.save():
-                messagebox.showinfo(
-                    "Connexion", "Bien inscrit !")
-                self.racine.destroy()
-                self.get_userframe()
-            else:
-                messagebox.showinfo(
-                    "Connexion", "Utilisateur déjà utilisé !")
-
-        else:
-            messagebox.showinfo(
-                "Inscription", "mot de passe et login doivent faire min 8 caractères")
 
     def __init__(self):
         self.get_connexion_popup()
